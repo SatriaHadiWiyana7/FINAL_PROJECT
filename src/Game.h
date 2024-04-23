@@ -40,8 +40,8 @@ public:
     // Leaderboard
     // AddPlayer
     // FindPlayer
-private:
     // void save
+private:
     // void load
 };
 
