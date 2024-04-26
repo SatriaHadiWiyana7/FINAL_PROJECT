@@ -7,7 +7,6 @@
 #include "Game.h"
 
 Game game;
-
 class Quest
 {
     // Menu game
