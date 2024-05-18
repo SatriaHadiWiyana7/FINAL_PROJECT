@@ -34,6 +34,9 @@ public:
 class Game
 {
 public:
+    vector<Player> players;
+    fstream dataFile;
+
     Game()
     {
         // Kondisi Membuka file Player.dat agar data dapat masuk kedalam system
@@ -53,6 +56,40 @@ public:
     {
         // AddPlayer digunakan untuk menambahkan data player dengan parameter username dan password
         // jangan lupa masukkan fungsi save dan tambahkan 0 sebagai pemulaian poin yang didapat player
+    }
+
+    Player GetPlayerByUsername(string username)
+    {
+        // Befungsi untuk nemapilkan nilai dari setiap player tanpa mengubah apapun yang ada dalam data
+    }
+
+    void UpdatePlayerData(Player player) // Befungsi untuk melakukan Update pada Data player setelah Mendapatkan Poin
+    {
+        dataFile.open("players.dat", ios::out);
+        if (!dataFile.is_open())
+        {
+            cout << "Error opening data file!" << endl;
+            return;
+        }
+        // Memposisikan Data Pada index ke-0
+        dataFile.seekg(0);
+
+        // Melakukan Penenulisan Player Kembali
+        for (Player existingPlayer : players)
+        {
+            if (existingPlayer.username == player.username)
+            {
+                // Merubah data Player diBagian Score
+                dataFile << player.username << "," << player.password << "," << player.poin << endl;
+            }
+            else
+            {
+                // Menulis Data Player yang tidak berubah
+                dataFile << existingPlayer.username << "," << existingPlayer.password << "," << existingPlayer.poin << endl;
+            }
+        }
+
+        dataFile.close();
     }
 
     bool Login(string username, string password)
