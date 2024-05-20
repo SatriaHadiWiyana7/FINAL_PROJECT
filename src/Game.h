@@ -63,33 +63,9 @@ public:
         // Befungsi untuk nemapilkan nilai dari setiap player tanpa mengubah apapun yang ada dalam data
     }
 
-    void UpdatePlayerData(Player player) // Befungsi untuk melakukan Update pada Data player setelah Mendapatkan Poin
+    void UpdatePlayerToFile(string username, string password, int poin)
     {
-        dataFile.open("players.dat", ios::out);
-        if (!dataFile.is_open())
-        {
-            cout << "Error opening data file!" << endl;
-            return;
-        }
-        // Memposisikan Data Pada index ke-0
-        dataFile.seekg(0);
-
-        // Melakukan Penenulisan Player Kembali
-        for (Player existingPlayer : players)
-        {
-            if (existingPlayer.username == player.username)
-            {
-                // Merubah data Player diBagian Score
-                dataFile << player.username << "," << player.password << "," << player.poin << endl;
-            }
-            else
-            {
-                // Menulis Data Player yang tidak berubah
-                dataFile << existingPlayer.username << "," << existingPlayer.password << "," << existingPlayer.poin << endl;
-            }
-        }
-
-        dataFile.close();
+        // Melakukan Update Data Kembali mmenggunakan ios::out untuk mereplay data yang sudah ada setelah permainan
     }
 
     bool Login(string username, string password)
