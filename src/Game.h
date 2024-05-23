@@ -9,32 +9,31 @@
 #include <windows.h>
 using namespace std;
 
-class Player
+struct Node
 {
-public:
-    // Data Player
     string username;
     string password;
     int poin;
+    Node *next;
 
-    // Constructor
-    Player(string username, string password, int poin)
+    Node(string username, string password, int poin) : username(username), password(password), poin(poin), next(nullptr) {}
+
+    string GetUsername() const
     {
-        this->username = username;
-        this->password = password;
-        this->poin = poin;
+        return username; // Return the username
     }
 
-    // Ketika Butuh Username dapat Memanggil Fungsi ini
-    // Syarat Dipanggil pada luar dari Game.h
-    string getUsername() { return username; }
-    int getPoin() { return poin; }
+    int GetPoin() const
+    {
+        return poin; // Return the player's score
+    }
 };
 
 class Game
 {
 public:
-    vector<Player> players;
+    Node *head;
+    Node *currentPlayer;
     fstream dataFile;
 
     Game()
@@ -58,7 +57,7 @@ public:
         // jangan lupa masukkan fungsi save dan tambahkan 0 sebagai pemulaian poin yang didapat player
     }
 
-    Player GetPlayerByUsername(string username)
+    Node *GetPlayerByUsername(string username)
     {
         // Befungsi untuk nemapilkan nilai dari setiap player tanpa mengubah apapun yang ada dalam data
     }
@@ -84,12 +83,12 @@ public:
         // Kondisi untuk melakukan pengecekan apakah ada username yang sama dengan username yang sudah pernah dibuat
     }
 
+private:
     void SavePlayerToFile(string username, string password, int poin)
     {
         // Menu save player ke player.dat
     }
 
-private:
     void LoadPlayerFromFile()
     {
         // lLoadPlayerFromFile digunakan untuk melakukan load data player
