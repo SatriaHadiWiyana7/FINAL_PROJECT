@@ -8,12 +8,11 @@
 #include <windows.h>
 
 using namespace std;
-void MenuGame();
-void AdminLoginPage();
+void MenuGame(string username);
+void AdminDisplayMenu();
 
 string admin_user = "satria";
 string admin_pass = "satria";
-string username, password;
 Game game;
 Quest quest;
 
@@ -21,6 +20,7 @@ int main()
 {
     quest.LoadAllData();
     int choice;
+    string username, password;
 
     do
     {
@@ -40,7 +40,12 @@ int main()
             cin >> username;
             cout << "Buat Password Anda : ";
             cin >> password;
-            if (game.IsUsernameExist(username))
+            if (username == "admin" && password == "admin")
+            {
+                cout << "Mohon Buat Username dan Password Baru" << endl;
+                system("pause");
+            }
+            else if (game.IsUsernameExist(username))
             {
                 cout << "Username Sudah Ada!" << endl;
                 cout << "Silahkan Buat Username Lain!" << endl;
@@ -52,7 +57,7 @@ int main()
                 game.Login(username, password);
                 cout << "Registrasi Telah Berhasil" << endl;
                 system("pause");
-                MenuGame();
+                MenuGame(username);
             }
             break;
         }
@@ -64,13 +69,13 @@ int main()
             cin >> password;
             if (username == "admin" && password == "admin")
             {
-                AdminLoginPage();
+                // Menu Admin
             }
             else if (game.Login(username, password))
             {
                 cout << "Login Berhasil!" << endl;
                 system("puase");
-                MenuGame();
+                MenuGame(username);
             }
             else
             {
@@ -87,17 +92,17 @@ int main()
     return 0;
 }
 
-void MenuGame()
+void MenuGame(string username)
 {
     int choice;
-    Player player = game.GetPlayerByUsername(username);
+    Node *playerNode = game.GetPlayerByUsername(username);
 
     do
     {
         system("cls");
         cout << "Welcome" << endl;
-        cout << "Player : " << player.getUsername() << endl; // nama player
-        cout << "Score : " << player.getPoin() << endl;      // poin player
+        cout << "Player : " << playerNode->GetUsername() << endl; // nama player
+        cout << "Score : " << playerNode->GetPoin() << endl;      // poin player
         cout << "============================" << endl;
         cout << "1. Play Game" << endl;
         cout << "2. LeaderBoard" << endl;
@@ -109,7 +114,7 @@ void MenuGame()
         {
         case 1:
         {
-            quest.PlayGame(username, player);
+            // quest.PlayGame(*playerNode);
             break;
         };
         case 2:
@@ -119,54 +124,78 @@ void MenuGame()
     } while (choice != 3);
 }
 
-void AdminLoginPage()
+void AdminDisplayMenu()
 {
-    string us_admin, pw_admin;
     int choice;
-    int batas = 3;
+    string username, password;
+    int position;
 
+    cout << "Masukkan Username Anda : ";
+    cin >> username;
+    cout << "Masukkan Password Anda : ";
+    cin >> password;
+
+    /*
+        if (!admin.Login(username, password)) {
+            system("pause");
+            return;
+        }
+     */
     do
     {
         system("cls");
-        cout << "Welcome To Dasboard Admin" << endl;
-        cout << "1. Login " << endl;
-        cout << "2. Back " << endl;
-        cout << "Masukkan Pilihan Anda : ";
+        cout << "Menu Admin" << endl;
+        cout << "1. Who" << endl; // clear
+        cout << "2. Modify Admin" << endl;
+        cout << "3. Tampilkan Admin" << endl; // clear
+        cout << "4. Tambah Admin" << endl;    // clear
+        cout << "5. Menghapus Admin" << endl;
+        cout << "6. Lihat Semua Player" << endl; // clear
+        cout << "7. Modify Player" << endl;
+        cout << "8. Menambahkan Player" << endl;
+        cout << "9. Menghapus Player" << endl; // byusername
+        cout << "10. Menghapus AllPlayer" << endl;
+        cout << "11. Menambahkan Soal(Easy)" << endl;
+        cout << "12. Menambahkan Soal(Medium)" << endl;
+        cout << "13. Menambahkan Soal(Hard)" << endl;
+        cout << "14. Menambahkan Soal(God)" << endl;
+        cout << "15. Menghapus AllSoal" << endl;
+        cout << "Who untuk Mengetahui Identitas" << endl;
+        cout << "Masukkan Pilihan : ";
         cin >> choice;
 
         switch (choice)
         {
         case 1:
         {
-            while (batas > 0)
-            {
-                system("cls");
-                cout << "Masukkan Username Admin : ";
-                cin >> us_admin;
-                cout << "Masukkan Password Admin : ";
-                cin >> pw_admin;
+            // admin.AboutMe(username);
+            system("pause");
+            break;
+        }
+        case 2:
+        {
+            // admin.DisplayAllPlayers(game);
+            system("pause");
+            break;
+        }
 
-                if (us_admin == admin_user && pw_admin == admin_pass)
-                {
-                    cout << "Anda Masuk Kedalam Menu Admin" << endl;
-                }
-                else
-                {
-                    batas--;
-                    cout << "Gagal Masuk Kedalam System!!" << endl;
-                }
-                if (batas == 0)
-                {
-                    Sleep(2000);
-                    cout << "System Menilai Anda Melakukan Bruteforce " << endl;
-                    Sleep(1000);
-                    cout << "System Melakukan Tindakan" << endl;
-                    Sleep(500);
-                    cout << "Tindakan Dilakukan!!" << endl;
-                    exit(0);
-                }
-            }
+        case 3:
+        {
+            // Add admin
+            cout << "Masukkan username : ";
+            cin >> username;
+            cout << "Masukkan password : ";
+            cin >> password;
+            cout << "Masukkan Position : ";
+            cin >> position;
+            // admin.AddNode(username, password,position);
+            break;
         }
+        case 4:
+            // Back to main menu
+            break;
+        default:
+            cout << "Pilihan tidak valid!" << endl;
         }
-    } while (choice != 2);
+    } while (choice != 4);
 }

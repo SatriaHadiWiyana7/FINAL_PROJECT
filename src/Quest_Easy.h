@@ -37,68 +37,122 @@ public:
     // Batasan jumlah soal
     const int JUMLAH_SOAL = 5;
 
-    void PlayGame(string username, Player &player)
+    bool JawabanKosong(string jawaban)
+    {
+        return jawaban.empty();
+    }
+
+    void PlayGame(Node &playerNode)
     {
         system("cls");
-        char Jawaban[200];
-        int Score = 0, Jawaban_Benar = 0, Jawaban_Salah = 0, Total_Soal = 0;
+        string Jawaban;
+        int Total_Score = 0, Score_Salah = 0, Score_Benar = 0, Jawaban_Benar = 0, Jawaban_Salah = 0, Soal_TidakTerjawab = 0, Total_Soal = 0;
 
-        // Variabel untuk menyimpan status memulai ulang
-        bool restart = true; // true nilai default
+        const int JUMLAH_SOAL = 5;
 
-        while (restart) // Looping selama pemain ingin bermain ulang
+        bool restart = true; // Start game by default
+
+        thread timerThread;
+
+        while (restart)
         {
-            // Mengacak soal dan hanya menampilkan 5
-            vector<int> indexSoal(5); // Mengubah ukuran vector menjadi 5
-            for (int i = 0; i < 5; i++)
+            // menginisialisai vector Soal menjadi bentuk int
+            vector<int> indexSoal(JUMLAH_SOAL);
+            for (int i = 0; i < JUMLAH_SOAL; i++)
             {
                 indexSoal[i] = i;
             }
+            // Berfungsi untuk melakukan Shuffle kepada Vector soal dari Awal sampai KeAkhir
             random_shuffle(indexSoal.begin(), indexSoal.end());
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < JUMLAH_SOAL; i++)
             {
-                int index = indexSoal[i]; // index merupakan soal setelah diacak pada fungsi diatas
-                if (!used[index])         // Periksa apakah soal belum pernah keluar
+                int index = indexSoal[i];
+                if (!used[index])
                 {
                     system("cls");
+                    cout << "Nama Pemain : " << playerNode.GetUsername() << endl;
+                    cout << "==========================" << endl;
                     cout << "Soal " << i + 1 << endl;
-                    cout << Questions.Soal[index] << endl;
+                    cout << "Soal : " << Questions.Soal[index] << endl;
                     cout << "Poin Benar : " << Questions.Benar[index] << endl;
                     cout << "Poin Salah : " << "-" << Questions.Salah[index] << endl;
-                    cout << "Masukkan Jawaban Anda : ";
-                    cin >> Jawaban;
 
-                    if (Jawaban == Questions.Kunci[index])
+                    int waktuSisa = 5; // Set Default Time
+                    // thread merupakan program unit ringan yang memungkinkan berjalan secara bersamaan
+                    thread timerThread([&waktuSisa]()
+                                       {
+                        while (waktuSisa > 0) {
+                            //chrono berfungsi menghitung waktu
+                            this_thread::sleep_for(chrono::seconds(1));
+                        waktuSisa--;
+                        }
+                        cout << "\nWaktu habis!" << endl; });
+
+                    // fungsi dibawah ini berguna untuk perulangan pertama agar kita dapat melakukan input jawaban
+                    // dikarenakan jika tidak menggunakan cin.ignore() maka getline(cin,Jawaban) akan terlewati
+                    if (i == 0)
                     {
-                        Score += Questions.Benar[index];
-                        Jawaban_Benar++;
-                        Total_Soal++;
-                        used[index] = true; // Soal sudah keluar
+                        cin.ignore();
                     }
-                    else if (Jawaban != Questions.Kunci[index])
+                    cout << "Masukkan Jawaban Anda : ";
+                    getline(cin, Jawaban);
+
+                    if (!JawabanKosong(Jawaban))
                     {
-                        Score -= Questions.Salah[index];
-                        Jawaban_Salah++;
-                        Total_Soal++;
-                        used[index] = true; // Soal sudah Keluar
+                        if (Jawaban == Questions.Kunci[index])
+                        {
+                            Score_Benar += Questions.Benar[index];
+                            Jawaban_Benar++;
+                            Total_Soal++;
+                            used[index] = true;
+                        }
+                        else if (Jawaban != Questions.Kunci[index])
+                        {
+                            Score_Salah += Questions.Salah[index];
+                            Jawaban_Salah++;
+                            Total_Soal++;
+                            used[index] = true;
+                        }
                     }
                     else
                     {
-                        cout << "Skip Soal!" << endl;
+                        Soal_TidakTerjawab++;
+                        Total_Soal++;
+                        used[index] = true;
                     }
+                    waktuSisa = 1;
+                    timerThread.join();
                 }
             }
 
             system("cls");
+            Total_Score = Score_Benar - Score_Salah;
             cout << "**Hasil Permainan**" << endl;
-            cout << "Nama Pemain : " << username << endl;
-            cout << "Skor : " << Score << endl;
-            cout << "Jawaban Benar : " << Jawaban_Benar << endl;
-            cout << "Jawaban Salah : " << Jawaban_Salah << endl;
+            cout << "Nama Pemain : " << playerNode.GetUsername() << endl;
+            cout << "Skor : " << Total_Score << endl;
+            cout << "Jawaban Benar : " << Jawaban_Benar << " -> Poin :" << Score_Benar << endl;
+            cout << "Jawaban Salah : " << Jawaban_Salah << " -> Poin :-" << Score_Salah << endl;
+            cout << "Soal Tidak Terjawab : " << Soal_TidakTerjawab << endl;
             cout << "Total Soal : " << Total_Soal << endl;
 
-            cout << "\nIngin bermain ulang? (y/n): ";
+            // Menambahkan skor ke player
+            if (Total_Score <= 0)
+            {
+                playerNode.poin += Total_Score;
+            }
+            else if (Total_Score >= 0)
+            {
+                playerNode.poin += Total_Score;
+            }
+
+            if (playerNode.poin <= 0)
+            {
+                playerNode.poin = 0;
+            }
+            game.UpdatePlayerToFile(playerNode.username, playerNode.password, playerNode.poin);
+
+            cout << "Ingin bermain ulang? (y/n): ";
             char pilihan;
             cin >> pilihan;
 
@@ -110,6 +164,18 @@ public:
 
             if (pilihan == 'n') // Berhenti bermain
             {
+                // Reset
+                for (int i = 0; i < Antrian.tail; i++)
+                {
+                    used[i] = false;
+                }
+                Total_Score = 0;
+                Score_Benar = 0;
+                Score_Salah = 0;
+                Jawaban_Benar = 0;
+                Jawaban_Salah = 0;
+                Total_Soal = 0;
+
                 restart = false;
             }
             else // Memulai ulang game
@@ -119,16 +185,15 @@ public:
                 {
                     used[i] = false;
                 }
-                Score = 0;
+                Total_Score = 0;
+                Score_Benar = 0;
+                Score_Salah = 0;
                 Jawaban_Benar = 0;
                 Jawaban_Salah = 0;
                 Total_Soal = 0;
             }
         }
-
-        // Menambahkan skor ke player
-        player.poin += Score;
-
+        system("pause");
         cout << "\nTerima kasih telah bermain!" << endl;
     }
 
