@@ -1,10 +1,19 @@
+/*
+    Name		: Bank Soal Siswa (BANKSOS)
+    Copyright	: 2024 | Banksos team
+    Author		: Banksos team
+    Description	: This software is made to fulfill the Data Structure's Final Project
+*/
+
 #include "game.h"
 #include "Quest_Easy.h"
 #include "Quest_Medium.h"
 #include "Quest_Hard.h"
 #include "Quest_God.h"
+#include "display.h"
 
 #include <iostream>
+#include <conio.h>
 #include <windows.h>
 
 using namespace std;
@@ -25,12 +34,20 @@ int main()
     do
     {
         system("cls");
-        cout << "Menu Game" << endl;
-        cout << "1. Registrasi " << endl;
-        cout << "2. Login " << endl;
-        cout << "3. Exit " << endl;
-        cout << "Masukkan Pilihan : ";
-        cin >> choice;
+        title(); // show the title
+
+        gotoxy(48, 14);
+        cout << "   M A I N  M E N U   " << endl;
+
+        gotoxy(51, 16);
+        cout << "[1] Registration" << endl;
+        gotoxy(51, 17);
+        cout << "[2] Login       " << endl;
+        gotoxy(51, 20);
+        cout << "[0] Exit        " << endl;
+        gotoxy(48, 25);
+        cout << "Tekan salah satu menu... ";
+        choice = getch();
 
         switch (choice)
         {

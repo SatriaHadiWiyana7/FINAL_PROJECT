@@ -81,17 +81,55 @@ public:
     bool IsUsernameExist(string username)
     {
         // Kondisi untuk melakukan pengecekan apakah ada username yang sama dengan username yang sudah pernah dibuat
+        ifstream dataFile("Players.dat");
+        string line, storedusername;
+
+        while (getline(dataFile, line))
+        {
+            stringstream ss(line); // Memisahkan data dalam baris dengan koma
+            getline(ss, storedusername, ',');
+
+            if (storedusername == username)
+            {
+                dataFile.close();
+                return true;
+            }
+        }
     }
 
 private:
     void SavePlayerToFile(string username, string password, int poin)
     {
         // Menu save player ke player.dat
+        ofstream dataFile("players.dat");
+        dataFile.open("players.dat", ios::app);
+
+        if (dataFile.is_open())
+        {
+            dataFile << username << "," << password << "," << poin << endl;
+        }
+
+        dataFile.close();
     }
 
     void LoadPlayerFromFile()
     {
         // lLoadPlayerFromFile digunakan untuk melakukan load data player
+        string username, password, strpoin, line;
+        int poin, baris;
+        // while perulanggan digunakan untuk
+        dataFile.open("players.dat");
+        // melakukan load pada data players.dat
+        while (getline(dataFile, line))
+        {
+            stringstream ss(line);
+            getline(ss, username, ',');
+            getline(ss, password, ',');
+            getline(ss, strpoin, ' ');
+            poin = stoi(strpoin);
+
+            Node(username, password, poin);
+        }
     }
 };
 
