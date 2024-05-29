@@ -81,20 +81,17 @@ public:
     bool IsUsernameExist(string username)
     {
         // Kondisi untuk melakukan pengecekan apakah ada username yang sama dengan username yang sudah pernah dibuat
-        ifstream dataFile("Players.dat");
-        string line, storedusername;
+        Node *current = head;
 
-        while (getline(dataFile, line))
+        while (current)
         {
-            stringstream ss(line); // Memisahkan data dalam baris dengan koma
-            getline(ss, storedusername, ',');
-
-            if (storedusername == username)
+            if (current->username == username)
             {
-                dataFile.close();
                 return true;
             }
+            current = head->next;
         }
+        return false;
     }
 
 private:
