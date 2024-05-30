@@ -125,7 +125,28 @@ private:
             getline(ss, strpoin, ' ');
             poin = stoi(strpoin);
 
-            Node(username, password, poin);
+            // Memasukkan Data yang telah terbaca ke dalam Node
+            Node *newNode = new Node(username, password, poin);
+
+            // Kondisi Pengecekan Apakah head adalah kosong
+            if (!head)
+            {
+                // player baru menjadi head
+                head = newNode;
+            }
+            // jika head tidak kosong
+            else
+            {
+                // pointer akan berada pada current
+                Node *current = head;
+                // perulanggan dimana jika masih dapat dinext maka akan next
+                while (current->next)
+                {
+                    current = current->next;
+                }
+                // jika data sudah tidak bisa di next maka data akan ditaruh disitu
+                current->next = newNode;
+            }
         }
     }
 };
