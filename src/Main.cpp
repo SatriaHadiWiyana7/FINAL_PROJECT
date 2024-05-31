@@ -1,10 +1,4 @@
-/*
-    Name		: Bank Soal Siswa (BANKSOS)
-    Copyright	: 2024 | Banksos team
-    Author		: Banksos team
-    Description	: This software is made to fulfill the Data Structure's Final Project
-*/
-
+// Melakukan Inisialisai pada file Header
 #include "game.h"
 #include "Quest_Easy.h"
 #include "Quest_Medium.h"
@@ -15,13 +9,12 @@
 #include <iostream>
 #include <conio.h>
 #include <windows.h>
-
 using namespace std;
+
 void MenuGame(string username);
 void AdminDisplayMenu();
 
-string admin_user = "satria";
-string admin_pass = "satria";
+//  Inisialisasi untuk melakuka akses pada class
 Game game;
 Quest_Easy quest_easy;
 Quest_Medium quest_medium;
@@ -114,6 +107,7 @@ int main()
 void MenuGame(string username)
 {
     int choice;
+    // Melakukan Akses untuk mendapatkan username melalui fungsi dengan paramater username
     Node *playerNode = game.GetPlayerByUsername(username);
 
     do
@@ -161,6 +155,7 @@ void MenuGame(string username)
             }
         };
         case 2:
+            // Display Leaderboard
             game.DisplayLeaderboard();
             break;
         }
