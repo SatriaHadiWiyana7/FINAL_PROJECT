@@ -1,5 +1,5 @@
-#ifndef QUEST_h
-#define QUEST_h
+#ifndef QUESTEasy_h
+#define QUESTEasy_h
 
 #include <iostream>
 #include <ctime>

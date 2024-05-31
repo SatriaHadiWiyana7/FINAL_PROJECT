@@ -96,6 +96,7 @@ private:
     // Fungsi Update Tree Pada Admin
     void UpdateFile()
     {
+        // Dalam Mode Memotong
         ofstream adminFile("admin.dat", ios::out | ios::trunc);
         if (adminFile.is_open())
         {
@@ -103,6 +104,7 @@ private:
             {
                 adminFile << root->GetUsername() << "," << root->GetPassword() << "," << root->GetPosition() << endl;
             }
+            // Pada fungsi ini membantu untuk melakukan save pada kiri dan kanan
             UpdateFileHelper(root->left, adminFile);
             UpdateFileHelper(root->right, adminFile);
         }
@@ -121,6 +123,8 @@ private:
             return;
         }
 
+        // Dia membaca dari kiri terlebih dahulu lalu mulai membaca dari kanan
+        // preOrder
         UpdateFileHelper(node->left, adminFile);
         adminFile << node->GetUsername() << "," << node->GetPassword() << "," << node->GetPosition() << endl;
         UpdateFileHelper(node->right, adminFile);

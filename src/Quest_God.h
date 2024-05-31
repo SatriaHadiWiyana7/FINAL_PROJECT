@@ -1,5 +1,5 @@
-#ifndef QUEST_h
-#define QUEST_h
+#ifndef QUESTGod_h
+#define QUESTGod_h
 
 #include <iostream>
 #include <ctime>

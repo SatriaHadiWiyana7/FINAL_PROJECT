@@ -81,7 +81,7 @@ int main()
             cin >> password;
             if (username == "admin" && password == "admin")
             {
-                // Menu Admin
+                AdminDisplayMenu();
             }
             else if (game.Login(username, password))
             {

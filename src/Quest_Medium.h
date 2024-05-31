@@ -1,5 +1,5 @@
-#ifndef QUEST_h
-#define QUEST_h
+#ifndef QUESTMedium_h
+#define QUESTMedium_h
 
 #include <iostream>
 #include <ctime>
