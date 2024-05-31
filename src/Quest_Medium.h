@@ -14,7 +14,7 @@
 #include "game.h"
 using namespace std;
 
-class Quest
+class Quest_Medium
 {
 public:
   Game game;

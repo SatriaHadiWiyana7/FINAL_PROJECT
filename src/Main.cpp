@@ -23,11 +23,13 @@ void AdminDisplayMenu();
 string admin_user = "satria";
 string admin_pass = "satria";
 Game game;
-Quest quest;
+Quest_Easy quest_easy;
+Quest_Medium quest_medium;
+Quest_Hard quest_hard;
+Quest_God quest_god;
 
 int main()
 {
-    quest.LoadAllData();
     int choice;
     string username, password;
 
@@ -46,7 +48,7 @@ int main()
         gotoxy(51, 20);
         cout << "[0] Exit        " << endl;
         gotoxy(48, 25);
-        cout << "Tekan salah satu menu... ";
+        cout << "Inputkan salah satu menu... ";
         choice = getch();
 
         switch (choice)
@@ -131,8 +133,32 @@ void MenuGame(string username)
         {
         case 1:
         {
+            string pilihan;
             // quest.PlayGame(*playerNode);
-            break;
+            if (pilihan == "EASY")
+            {
+                // Quest Easy
+                break;
+            }
+            else if (pilihan == "MEDIUM")
+            {
+                // Quest Medium
+                break;
+            }
+            else if (pilihan == "HARD")
+            {
+                // Quest Hard
+                break;
+            }
+            else if (pilihan == "GOD")
+            {
+                // Quest God
+                break;
+            }
+            else
+            {
+                cout << "Pilihan Tidak Tersedia" << endl;
+            }
         };
         case 2:
             game.DisplayLeaderboard();
