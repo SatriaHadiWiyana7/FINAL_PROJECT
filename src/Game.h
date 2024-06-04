@@ -81,17 +81,73 @@ public:
     bool IsUsernameExist(string username)
     {
         // Kondisi untuk melakukan pengecekan apakah ada username yang sama dengan username yang sudah pernah dibuat
+        Node *current = head;
+
+        while (current)
+        {
+            if (current->username == username)
+            {
+                return true;
+            }
+            current = head->next;
+        }
+        return false;
     }
 
 private:
     void SavePlayerToFile(string username, string password, int poin)
     {
         // Menu save player ke player.dat
+        ofstream dataFile("players.dat");
+        dataFile.open("players.dat", ios::app);
+
+        if (dataFile.is_open())
+        {
+            dataFile << username << "," << password << "," << poin << endl;
+        }
+
+        dataFile.close();
     }
 
     void LoadPlayerFromFile()
     {
         // lLoadPlayerFromFile digunakan untuk melakukan load data player
+        string username, password, strpoin, line;
+        int poin, baris;
+        // while perulanggan digunakan untuk
+        dataFile.open("players.dat");
+        // melakukan load pada data players.dat
+        while (getline(dataFile, line))
+        {
+            stringstream ss(line);
+            getline(ss, username, ',');
+            getline(ss, password, ',');
+            getline(ss, strpoin, ' ');
+            poin = stoi(strpoin);
+
+            // Memasukkan Data yang telah terbaca ke dalam Node
+            Node *newNode = new Node(username, password, poin);
+
+            // Kondisi Pengecekan Apakah head adalah kosong
+            if (!head)
+            {
+                // player baru menjadi head
+                head = newNode;
+            }
+            // jika head tidak kosong
+            else
+            {
+                // pointer akan berada pada current
+                Node *current = head;
+                // perulanggan dimana jika masih dapat dinext maka akan next
+                while (current->next)
+                {
+                    current = current->next;
+                }
+                // jika data sudah tidak bisa di next maka data akan ditaruh disitu
+                current->next = newNode;
+            }
+        }
     }
 };
 

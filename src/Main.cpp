@@ -1,36 +1,48 @@
+// Melakukan Inisialisai pada file Header
 #include "game.h"
 #include "Quest_Easy.h"
 #include "Quest_Medium.h"
 #include "Quest_Hard.h"
 #include "Quest_God.h"
+#include "display.h"
 
 #include <iostream>
+#include <conio.h>
 #include <windows.h>
-
 using namespace std;
+
 void MenuGame(string username);
 void AdminDisplayMenu();
 
-string admin_user = "satria";
-string admin_pass = "satria";
+//  Inisialisasi untuk melakuka akses pada class
 Game game;
-Quest quest;
+Quest_Easy quest_easy;
+Quest_Medium quest_medium;
+Quest_Hard quest_hard;
+Quest_God quest_god;
 
 int main()
 {
-    quest.LoadAllData();
     int choice;
     string username, password;
 
     do
     {
         system("cls");
-        cout << "Menu Game" << endl;
-        cout << "1. Registrasi " << endl;
-        cout << "2. Login " << endl;
-        cout << "3. Exit " << endl;
-        cout << "Masukkan Pilihan : ";
-        cin >> choice;
+        title(); // show the title
+
+        gotoxy(48, 14);
+        cout << "   M A I N  M E N U   " << endl;
+
+        gotoxy(51, 16);
+        cout << "[1] Registration" << endl;
+        gotoxy(51, 17);
+        cout << "[2] Login       " << endl;
+        gotoxy(51, 20);
+        cout << "[0] Exit        " << endl;
+        gotoxy(48, 25);
+        cout << "Inputkan salah satu menu... ";
+        choice = getch();
 
         switch (choice)
         {
@@ -69,7 +81,7 @@ int main()
             cin >> password;
             if (username == "admin" && password == "admin")
             {
-                // Menu Admin
+                AdminDisplayMenu();
             }
             else if (game.Login(username, password))
             {
@@ -95,6 +107,7 @@ int main()
 void MenuGame(string username)
 {
     int choice;
+    // Melakukan Akses untuk mendapatkan username melalui fungsi dengan paramater username
     Node *playerNode = game.GetPlayerByUsername(username);
 
     do
@@ -114,10 +127,35 @@ void MenuGame(string username)
         {
         case 1:
         {
+            string pilihan;
             // quest.PlayGame(*playerNode);
-            break;
+            if (pilihan == "EASY")
+            {
+                // Quest Easy
+                break;
+            }
+            else if (pilihan == "MEDIUM")
+            {
+                // Quest Medium
+                break;
+            }
+            else if (pilihan == "HARD")
+            {
+                // Quest Hard
+                break;
+            }
+            else if (pilihan == "GOD")
+            {
+                // Quest God
+                break;
+            }
+            else
+            {
+                cout << "Pilihan Tidak Tersedia" << endl;
+            }
         };
         case 2:
+            // Display Leaderboard
             game.DisplayLeaderboard();
             break;
         }
