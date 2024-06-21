@@ -12,6 +12,6 @@
 - Styling -> Hafis
 
 # File
-Quest.h -> Selesai
-Game.h -> Selesai
-Admin.h -> Selesai
+- Quest.h -> Selesai
+- Game.h -> Selesai
+- Admin.h -> Selesai
