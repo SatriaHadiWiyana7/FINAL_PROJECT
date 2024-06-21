@@ -18,6 +18,11 @@ void gotoxy(int x, int y)
     SetConsoleCursorPosition(hConsoleOutput, dwCursorPosition);
 }
 
+int Alert(string Prompt="", string Title="",UINT BtnLst=MB_OK)
+{
+    return MessageBox(nullptr,Prompt.c_str(),Title.c_str(),BtnLst);
+}
+
 void loading()
 {
     system("color f0");
@@ -50,8 +55,6 @@ void loading()
 
 void title()
 {
-    PlaySound(TEXT("backsong.mp3"), NULL, SND_SYNC);
-
     gotoxy(12, 3);
     cout << "          ________   _________  ___    ___  ___  ___   __________  ___________  __________    " << endl;
     gotoxy(12, 4);
@@ -68,4 +71,159 @@ void title()
     cout << "                                                                                              " << endl;
     gotoxy(12, 10);
     cout << "                                      --Bank Soal Siswa--                                     " << endl;
+}
+
+void dis_registration() {
+	gotoxy(38, 14);
+	cout << "---------= R E G I S T A T I O N =---------";
+	for (int i = 1; i < 5 ; i++) {
+		gotoxy(38, 14+i);
+		cout << "|                                         |";
+	}
+	gotoxy(38, 19);
+	cout << "-------------------------------------------";
+}
+
+void dis_login() {
+	gotoxy(38, 14);
+	cout << "---------------= L O G I N =---------------";
+	for (int i = 1; i < 5 ; i++) {
+		gotoxy(38, 14+i);
+		cout << "|                                         |";
+	}
+	gotoxy(38, 19);
+	cout << "-------------------------------------------";
+}
+
+void dis_menugame() {
+	gotoxy(45, 14);
+	cout << "----= M A I N   M E N U =----";
+	for (int i = 1; i <= 9 ; i++) {
+		gotoxy(45, 14+i);
+		cout << "|                           |";
+	}
+	gotoxy(45, 24);
+	cout << "-----------------------------";
+}
+
+void dis_dificulty() {
+	gotoxy(45, 14);
+	cout << "----= D I F I C U L T Y =----";
+	for (int i = 1; i <= 8 ; i++) {
+		gotoxy(45, 14+i);
+		cout << "|                           |";
+	}
+	gotoxy(45, 23);
+	cout << "-----------------------------"; 
+}
+
+void dis_leaderboard() {
+	gotoxy(40, 12);
+	cout << "-------= L E A D E R B O A R D =-------";
+	for (int i = 1; i <= 12 ; i++) {
+		gotoxy(40, 12+i);
+		cout << "|                                     |";
+	}
+	gotoxy(40, 25);
+	cout << "---------------------------------------";
+}
+
+void dis_loginAdmin() {
+	gotoxy(38, 14);
+	cout << "---------------= A D M I N =---------------";
+	for (int i = 1; i < 5 ; i++) {
+		gotoxy(38, 14+i);
+		cout << "|                                         |";
+	}
+	gotoxy(38, 19);
+	cout << "-------------------------------------------";
+}
+
+void dis_finduser(){
+	gotoxy(35,15);
+    cout << "+----------------------------------------------------+";
+    gotoxy(35,16);
+	cout << "|                                                    |";
+    gotoxy(35,17);
+	cout << "+----------------------------------------------------+";
+}
+
+void dis_modadmin(){
+	gotoxy(35,15);
+    cout << "+----------------------------------------------------+";
+    gotoxy(35,16);
+	cout << "|                                                    |";
+    gotoxy(35,17);
+	cout << "+----------------------------------------------------+";
+}
+
+void dis_deladmin(){
+	gotoxy(35,15);
+    cout << "+----------------------------------------------------+";
+    gotoxy(35,16);
+	cout << "|                                                    |";
+    gotoxy(35,17);
+	cout << "+----------------------------------------------------+";
+}
+
+void dis_addplayer(){
+	gotoxy(39,13);
+	cout << "+--------= A D D   P L A Y E R =--------+";
+	for (int i = 1; i <= 6 ; i++) {
+		gotoxy(39, 13+i);
+	cout << "|                                       |";
+	}
+	gotoxy(39,20);
+	cout << "+---------------------------------------+";
+	gotoxy(39,21);
+	cout << "+-----------------+  +------------------+";
+	gotoxy(39,22);
+	cout << "|    [y] Y E S    |  |	   [n] N O      |";
+	gotoxy(39,23);
+	cout << "+-----------------+  +------------------+";
+	
+}
+
+void dis_delplayer() {
+	gotoxy(38, 14);
+	cout << "-------= D E L E T E   P L A Y E R =-------";
+	for (int i = 1; i <= 3 ; i++) {
+		gotoxy(38, 14+i);
+		cout << "|                                         |";
+	}
+	gotoxy(38, 18);
+	cout << "-------------------------------------------";
+}
+
+void dis_tambahadmin() {
+	gotoxy(38, 14);
+	cout << "-----------= A D D   A D M I N =-----------";
+	for (int i = 1; i <= 5 ; i++) {
+		gotoxy(38, 14+i);
+		cout << "|                                         |";
+	}
+	gotoxy(38, 20);
+	cout << "-------------------------------------------";
+}
+
+void dis_tambahsoal(){
+	gotoxy(17,13);
+	cout << "+---------------------------= A D D   Q U E S T I O N =---------------------------+";
+	for (int i = 1; i <= 6 ; i++) {
+		gotoxy(17, 13+i);
+		cout << "|                                      				           |";
+	}
+	gotoxy(17,20);
+	cout << "+---------------------------------------------------------------------------------+";
+}
+
+void dis_pilihan() {
+	system("cls");
+	title();
+	gotoxy(39,17);
+	cout << "+-----------------+  +------------------+";
+	gotoxy(39,18);
+	cout << "|    [y] Y E S    |  |	   [n] N O     |";
+	gotoxy(39,19);
+	cout << "+-----------------+  +------------------+";
 }
