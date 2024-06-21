@@ -38,7 +38,7 @@ public:
   } Antrian;
 
   bool used[max];
-  const int JUMLAH_SOAL = 1;
+  int JUMLAH_SOAL = 5;
 
   // kondisi pengecekan apakah string jawaban berupa string kosong
   bool JawabanKosong(string jawaban)
@@ -65,24 +65,28 @@ public:
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_Easy();
       Timer = 10;
+      JUMLAH_SOAL = 30;
     }
     else if (Type == 2)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_Medium();
       Timer = 5;
+      JUMLAH_SOAL = 20;
     }
     else if (Type == 3)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_Hard();
       Timer = 3;
+      JUMLAH_SOAL = 10;
     }
     else if (Type == 4)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_God();
       Timer = 2;
+      JUMLAH_SOAL = 5;
     }
     else
     {
