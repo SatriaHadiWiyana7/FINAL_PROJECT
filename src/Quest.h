@@ -45,59 +45,69 @@ public:
   {
     return jawaban.empty();
   }
-  // Fungsi Untuk Melakukan Radom Soal
-  void ShuffleQuestions()
-  {
-    // Questions.soal merupakan Alamat Array Awal
-    // Questions.soal + Antrian.tail merupakan Alamat Terakir pada Array yang akan di acak
-    // random_shuffle merupakan fungsi standart yang berasar dari library <algorithm>
-    random_shuffle(Questions.Soal, Questions.Soal + Antrian.tail);
-  }
+  
+  // Kondisi ini berfungsi untuk Melakukan Shuffle
+  void ShuffleQuestions() {
+	// Berfungsi untuk Menggulang Struct dari tail sampai ke head
+	for (int i = Antrian.tail - 1; i > 0; --i) {
+		// Melakukan Inisialisasi Mana yang akan diRandom
+		int j = rand() % (i + 1);
+		// Fungsi untuk Menukar Nilai
+	    swap(Questions.Soal[i], Questions.Soal[j]);
+	    swap(Questions.Kunci[i], Questions.Kunci[j]);
+	    swap(Questions.Benar[i], Questions.Benar[j]);
+	    swap(Questions.Salah[i], Questions.Salah[j]);
+	  }
+	}
 
   // Fungsi Utama menggunakan Paramater Node &playerNode
   void PlayGame(int Type, Node &playerNode)
   {
-    int Timer;
+    int Timer;  
+    bool restart = true; // Start game by default
     // Pada Awal Hapus Semua data lalu Load kembali data
     ClearData();
     if (Type == 1)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_Easy();
-      Timer = 10;
-      JUMLAH_SOAL = 30;
+      Timer = 30;
+      JUMLAH_SOAL = 5;
     }
     else if (Type == 2)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_Medium();
-      Timer = 5;
-      JUMLAH_SOAL = 20;
+      Timer = 20;
+      JUMLAH_SOAL = 5;
     }
     else if (Type == 3)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_Hard();
-      Timer = 3;
-      JUMLAH_SOAL = 10;
+      Timer = 20;
+      JUMLAH_SOAL = 5;
     }
     else if (Type == 4)
     {
       PlaySound(TEXT("sounds/backsong.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
       LoadAllData_God();
-      Timer = 2;
+      Timer = 10;
       JUMLAH_SOAL = 5;
     }
     else
     {
       AlertQ("Anda Menemukan Hidden Quest");
+      playerNode.poin += 500;
+      game.UpdatePlayerToFile(playerNode.username, playerNode.password, playerNode.poin);
+      restart = false;
+      
     }
 
     system("cls");
     string Jawaban, tempJawaban;
     int Total_Score = 0, Score_Salah = 0, Score_Benar = 0, Jawaban_Benar = 0, Jawaban_Salah = 0, Soal_TidakTerjawab = 0, Total_Soal = 0;
 
-    bool restart = true; // Start game by default
 
     // tread merupakan mikro program yang bisa berjalan dibalik program utama
     thread timerThread; // Thread untuk mengatur waktu per soal
@@ -123,7 +133,7 @@ public:
             if (question[j] == '|')
             {
               lineCount++;
-              gotoxyQ(18, 12 + lineCount);
+              gotoxyQ(18, 8 + lineCount);
             }
             else
             {
@@ -161,7 +171,7 @@ public:
           // Input Jawaban
 
           gotoxyQ(18, 24);
-          getline(cin, tempJawaban);
+   		  getline(cin, tempJawaban);
           transform(tempJawaban.begin(), tempJawaban.end(), tempJawaban.begin(), ::tolower);
           Jawaban = tempJawaban;
 
@@ -175,7 +185,7 @@ public:
               Total_Soal++;
               used[index] = true;
             }
-            else if (Jawaban != Questions.Kunci[index])
+            if (Jawaban != Questions.Kunci[index])
             {
               Score_Salah += Questions.Salah[index];
               Jawaban_Salah++;
@@ -232,17 +242,17 @@ public:
       cout << "Terima kasih telah bermain!" << endl;
 
       gotoxyQ(50, 17);
-      cout << "Ingin bermain ulang?";
+      cout << "Ketik y Untuk Kembali";
       char pilihan;
       pilihan = getch();
 
-      if (tolower(pilihan) != 'y' && tolower(pilihan) != 'n')
+      if (tolower(pilihan) != 'y')
       {
-        AlertQ("Pilihan tidak valid.\nMasukkan y/n");
+        AlertQ("Pilihan tidak valid");
         continue;
       }
 
-      if (pilihan == 'n') // Berhenti bermain
+      if (pilihan == 'y') // Berhenti bermain
       {
         // Reset
         for (int i = 0; i < Antrian.tail; i++)
@@ -257,20 +267,6 @@ public:
         Total_Soal = 0;
 
         restart = false;
-      }
-      else // Memulai ulang game
-      {
-        // Reset
-        for (int i = 0; i < Antrian.tail; i++)
-        {
-          used[i] = false;
-        }
-        Total_Score = 0;
-        Score_Benar = 0;
-        Score_Salah = 0;
-        Jawaban_Benar = 0;
-        Jawaban_Salah = 0;
-        Total_Soal = 0;
       }
     }
   }
@@ -438,7 +434,7 @@ public:
   void LoadAllData_God()
   {
     ifstream File;
-    File.open("Questions.God", ios::in);
+    File.open("Questions_God.dat", ios::in);
 
     if (File.is_open())
     {

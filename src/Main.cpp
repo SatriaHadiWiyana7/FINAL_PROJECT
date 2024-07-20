@@ -125,6 +125,8 @@ int main()
 void MenuGame(string username)
 {
 	int choice;
+	int count = 1;
+	string Achievement;
 	Node *playerNode = game.GetPlayerByUsername(username);
 
 	do
@@ -135,7 +137,7 @@ void MenuGame(string username)
 		PlaySound(TEXT("sounds/menu_player.wav"), NULL, SND_FILENAME | SND_ASYNC | SND_LOOP);
 		
 		gotoxy(47,16);
-		cout << "Player : " << playerNode->GetUsername() << endl; // nama player
+		cout << "Player : " << playerNode->GetUsername() << Achievement << endl; // nama player
 		gotoxy(47,17);
 		cout << "Score  : " << playerNode->GetPoin() << endl;	  // poin player
 		gotoxy(46,18);
@@ -171,7 +173,14 @@ void MenuGame(string username)
 			gotoxy(54, 21);
 			cout << "Pilihan : ";
 			cin >>type;
-			}while(type <=0 || type >=4);
+			if(type == 23115626 && count == 1) {
+				Alert("Achievement Pencundang Didapatkan");
+				Alert("Game Master Memberikan Title Pencundang");
+				Achievement = " Poops";
+				count ++;
+				break;	
+			}
+			}while(type <= 0 || type >= 5);
 			quest.PlayGame(type, *playerNode);
 			break;
 		};
